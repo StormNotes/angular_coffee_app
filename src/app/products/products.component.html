@@ -6,17 +6,27 @@
     <div class="row">
       <div class="col-md-2"><h2>Filter by: </h2> </div>
       <div class="col-md-4">
-        <input type="text">
+        <input type="text"
+        [(ngModel)] ='listFilter'>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-2">
+        <h4>Filtered by: {{listFilter}}</h4>
+
       </div>
     </div>
   </div>
   <div class="table-responsive">
-  <table class="table">
+  <table class="table" *ngIf='products && products.length'>
     <thead>
       <tr>
         <th>
-          <button class="btn btn-primary">
-            Show Image
+          <button class="btn btn-primary"(click)="toggleImage()">
+
+            <!-- When set to true -->
+             <!-- When set to false -->
+            Click me to{{showImage ? ' hide images' :' show images '}}
           </button>
         </th>
         <th>Product</th>
@@ -27,6 +37,21 @@
       </tr>
     </thead>
     <tbody>
+      <tr *ngFor='let product of products'>
+        <td>
+          <img
+          *ngIf='showImage'
+          [src]='product.imageUrl'
+          [title]='product.description'
+          [style.width.px]='imgWidth'
+          [style.margin.px]='imgMargin'>
+        </td>
+        <td>{{product.productName}}</td>
+        <td>{{product.productCode | lowercase | ConvertToSpaces: '-'}}</td>
+        <td>{{product.releaseDate}}</td>
+        <td>{{product.price|currency:'EUR':'symbol':'1.2-2' }}</td>
+        <td>{{product.starRating}}</td>
+      </tr>
 
     </tbody>
   </table>
